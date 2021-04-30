@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Input } from "../../atoms";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -37,7 +38,9 @@ const Register = () => {
         />
         <br />
         <Button block text="Register" textColor="white" />
-        <Button block text="Back to Login" color="grey" textColor="white" />
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Button block text="Back to Login" color="grey" textColor="white" />
+        </Link>
       </div>
     </div>
   );
