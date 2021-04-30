@@ -1,8 +1,13 @@
 import React from "react";
-import { Login } from "./components/pages";
+import { Login, Register } from "./components/pages";
 
 const App = () => {
-  return <Login />;
+  return (
+    <div>
+      {/* <Login />; */}
+      <Register />
+    </div>
+  );
 };
 
 export default App;
