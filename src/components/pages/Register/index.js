@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Input } from "../../atoms";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import firebase from "../../../config/Firebase";
 
 const Register = () => {
@@ -8,6 +8,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
 
+  let history = useHistory();
   const handleSubmit = () => {
     const data = {
       email: email,
@@ -28,6 +29,8 @@ const Register = () => {
         setFullName("");
         setEmail("");
         setPassword("");
+
+        history.push("/");
       })
       .catch((error) => {
         console.log(error);

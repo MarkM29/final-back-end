@@ -1,10 +1,25 @@
 import React, { useState } from "react";
 import { Button, Input } from "../../atoms";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import firebase from "../../../config/Firebase";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  let history = useHistory();
+
+  const handleSubmit = () => {
+    const data = {
+      email: email,
+      password: password,
+    };
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((res) => history.push("/dashboard"))
+      .catch((error) => console.log("Error", error));
+  };
 
   return (
     <div
@@ -29,7 +44,7 @@ const Login = () => {
           onChange={(event) => setPassword(event.target.value)}
         />
         <br />
-        <Button block text="Login" textColor="white" />
+        <Button block text="Login" textColor="white" onSubmit={handleSubmit} />
         <Link to="/register" style={{ textDecoration: "none" }}>
           <Button block text="Register" color="grey" textColor="white" />
         </Link>
