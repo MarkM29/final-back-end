@@ -1,5 +1,4 @@
 import React from "react";
-import { Login, Register } from "./components/pages";
 import Router from "./config/Router";
 
 const App = () => {
