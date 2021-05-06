@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Input } from "../../atoms";
+import { Button, Input } from "../../../components";
 import { Link, useHistory } from "react-router-dom";
 import firebase from "../../../config/Firebase";
 
@@ -65,12 +65,14 @@ const Register = () => {
           placeholder="Masukkan password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          type="password"
         />
         <br />
         <Button
           block
           text="Register"
           textColor="white"
+          color="brown"
           onSubmit={handleSubmit}
         />
         <Link to="/" style={{ textDecoration: "none" }}>
