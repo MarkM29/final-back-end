@@ -7,6 +7,28 @@ import "../../../App.css";
 
 const Dashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const [kategori, setKategori] = useState("");
+  const [produk, setProduk] = useState("");
+  const [harga, setHarga] = useState(0);
+  const [button, setButton] = useState("Save");
+
+  const handleSubmit = () => {
+    const data = {
+      date: startDate,
+      kategori: kategori,
+      produk: produk,
+      harga: harga,
+    };
+    console.log(data);
+    resetFrom();
+  };
+
+  const resetFrom = () => {
+    setStartDate(new Date());
+    setKategori("");
+    setHarga(0);
+    setProduk("");
+  };
 
   return (
     <div style={{ backgroundColor: "bisque", height: "100vh" }}>
@@ -24,21 +46,31 @@ const Dashboard = () => {
             />
             <Input
               label="Kategori"
-              placeholder="Masukkan kategori"
+              placeholder="Makanan"
               className="form-control"
+              value={kategori}
+              onChange={(event) => setKategori(event.target.value)}
             />
             <Input
               label="Nama Makanan/Minuman"
               placeholder="Masukkan nama makanan/minuman"
               className="form-control"
+              value={produk}
+              onChange={(event) => setProduk(event.target.value)}
             />
             <Input
               label="Harga"
-              placeholder="Masukkan harga"
               className="form-control"
+              value={harga}
+              onChange={(event) => setHarga(event.target.value)}
             />
             <br />
-            <Button text="Simpan" color="brown" textColor="white" />
+            <Button
+              text="Simpan"
+              color="#F28F27"
+              textColor="white"
+              onSubmit={handleSubmit}
+            />
           </div>
           <div className="col-sm ms-5">
             <table class="table">
@@ -71,6 +103,7 @@ const Dashboard = () => {
                 </tr>
               </tbody>
             </table>
+            <Button text="Total" color="#F28F27" textColor="white" />
           </div>
         </div>
       </div>
