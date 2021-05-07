@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavBar } from "../../../components";
 import { Button, Input } from "../../atoms";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../App.css";
+import firebase from "../../../config/Firebase";
+import format from "date-fns/format";
 
 const Dashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -19,6 +21,7 @@ const Dashboard = () => {
       produk: produk,
       harga: harga,
     };
+    firebase.database().ref("catatan").push(data);
     console.log(data);
     resetFrom();
   };
@@ -42,11 +45,17 @@ const Dashboard = () => {
             <DatePicker
               className="form-control"
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              onChange={(date) =>
+                setStartDate(
+                  format(date, "yyyy/MM/dd", { awareOfUnicodeTokens: true })
+                )
+              }
+              //  onChange={(date) => setStartDate(date.target.value)}
+              dateFormat="dd/MM/yyyy"
             />
             <Input
               label="Kategori"
-              placeholder="Makanan"
+              placeholder="Makanan/Minuman"
               className="form-control"
               value={kategori}
               onChange={(event) => setKategori(event.target.value)}
