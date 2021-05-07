@@ -7,7 +7,7 @@ const NavBar = () => {
     <nav className="navbar navbar-expand-lg navbar-dark CustomColor">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
-          Navbar
+          KiosNote
         </a>
         <button
           className="navbar-toggler"
@@ -22,14 +22,11 @@ const NavBar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <Link className="nav-link" to="/">
+            <Link className="nav-link" to="/dashboard">
               Dashboard
             </Link>
-            <Link className="nav-link" to="/AddUser">
-              Menu1
-            </Link>
-            <Link className="nav-link" to="/about">
-              Menu2
+            <Link className="nav-link" to="/History">
+              History
             </Link>
           </div>
         </div>
