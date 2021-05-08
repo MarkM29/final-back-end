@@ -18,7 +18,7 @@ const Login = () => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((res) => history.push("/dashboard"))
-      .catch((error) => console.log("Error", error));
+      .catch((error) => console.log("error", error));
   };
 
   return (

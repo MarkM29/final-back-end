@@ -5,23 +5,63 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../App.css";
 import firebase from "../../../config/Firebase";
-import format from "date-fns/format";
 
 const Dashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [kategori, setKategori] = useState("");
   const [produk, setProduk] = useState("");
   const [harga, setHarga] = useState(0);
-  const [button, setButton] = useState("Save");
+  const [catatan, setCatatan] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  const date = startDate.toDateString();
+
+  console.log("test", catatan[1]);
+
+  
+
+  useEffect(() => {
+
+    firebase
+      .database()
+      .ref(`catatan/${date}`)
+      .on("value", (res) => {
+        if (res.val()) {
+          //ubah menjadi array object
+          const rawData = res.val();
+          const catatanArray = [];
+          Object.keys(rawData).map((item) => {
+            catatanArray.push({
+              id: item,
+              ...rawData[item],
+            });
+          });
+          setCatatan(catatanArray);
+          console.log(catatanArray);
+          let count = 0;
+          for (let i = 0; i < catatanArray.length; i++) {
+            count = +count + +catatanArray[i].harga;
+            setTotal(count);
+          }
+          console.log(total);
+          
+        } else {
+          setTotal(0);
+          setCatatan([]);
+        }
+      });
+  }, [total, date]);
 
   const handleSubmit = () => {
+    const tanggal = startDate.toLocaleDateString("ID");
     const data = {
-      date: startDate,
+      date: tanggal,
       kategori: kategori,
       produk: produk,
       harga: harga,
     };
-    firebase.database().ref("catatan").push(data);
+    const date = startDate.toDateString();
+    firebase.database().ref(`catatan/${date}`).push(data);
     console.log(data);
     resetFrom();
   };
@@ -45,12 +85,7 @@ const Dashboard = () => {
             <DatePicker
               className="form-control"
               selected={startDate}
-              onChange={(date) =>
-                setStartDate(
-                  format(date, "yyyy/MM/dd", { awareOfUnicodeTokens: true })
-                )
-              }
-              //  onChange={(date) => setStartDate(date.target.value)}
+              onChange={(date) => setStartDate(date)}
               dateFormat="dd/MM/yyyy"
             />
             <Input
@@ -91,28 +126,23 @@ const Dashboard = () => {
                   <th scope="col">Harga </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
+              {catatan && (
+                <tbody>
+                  {catatan.map((item) => (
+                    <tr>
+                      <td>{item.date}</td>
+                      <td>{item.kategori}</td>
+                      <td>{item.produk}</td>
+                      <td>{item.harga}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              )}   
             </table>
-            <Button text="Total" color="#F28F27" textColor="white" />
+            <br />
+            <h1>
+              Total for {date} : Rp. {total}
+            </h1>
           </div>
         </div>
       </div>
