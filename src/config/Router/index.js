@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Login, Register, Dashboard } from "../../components/pages";
+import { Login, Register, Dashboard, Summary } from "../../components/pages";
 
 const Routes = () => {
   return (
@@ -14,6 +14,9 @@ const Routes = () => {
         </Route>
         <Route path="/dashboard">
           <Dashboard />
+        </Route>
+        <Route path="/summary">
+          <Summary />
         </Route>
       </Switch>
     </Router>

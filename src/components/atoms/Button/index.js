@@ -5,6 +5,7 @@ const Button = ({
   onSubmit,
   color = "#4260f5",
   textColor = "black",
+  height,
   ...rest
 }) => {
   return (
@@ -13,7 +14,7 @@ const Button = ({
         type="button"
         className="btn mb-3"
         onClick={onSubmit}
-        style={{ backgroundColor: color, color: textColor }}
+        style={{ backgroundColor: color, color: textColor, height: height }}
         {...rest}
       >
         {text}

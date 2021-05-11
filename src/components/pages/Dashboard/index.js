@@ -13,15 +13,12 @@ const Dashboard = () => {
   const [harga, setHarga] = useState(0);
   const [catatan, setCatatan] = useState([]);
   const [total, setTotal] = useState(0);
+  const [button, setButton] = useState("Simpan");
+  const [indexProduk, setIndexProduk] = useState({});
 
   const date = startDate.toDateString();
 
-  console.log("test", catatan[1]);
-
-  
-
   useEffect(() => {
-
     firebase
       .database()
       .ref(`catatan/${date}`)
@@ -37,14 +34,11 @@ const Dashboard = () => {
             });
           });
           setCatatan(catatanArray);
-          console.log(catatanArray);
           let count = 0;
           for (let i = 0; i < catatanArray.length; i++) {
             count = +count + +catatanArray[i].harga;
             setTotal(count);
           }
-          console.log(total);
-          
         } else {
           setTotal(0);
           setCatatan([]);
@@ -54,23 +48,45 @@ const Dashboard = () => {
 
   const handleSubmit = () => {
     const tanggal = startDate.toLocaleDateString("ID");
+
     const data = {
       date: tanggal,
       kategori: kategori,
       produk: produk,
       harga: harga,
     };
+
     const date = startDate.toDateString();
-    firebase.database().ref(`catatan/${date}`).push(data);
+    if (button === "Simpan") {
+      firebase.database().ref(`catatan/${date}`).push(data);
+    } else {
+      firebase.database().ref(`catatan/${date}/${indexProduk.id}`).set(data);
+    }
+
     console.log(data);
-    resetFrom();
+    console.log(total);
+
+    resetField();
   };
 
-  const resetFrom = () => {
+  const resetField = () => {
     setStartDate(new Date());
     setKategori("");
     setHarga(0);
     setProduk("");
+    setButton("Simpan");
+  };
+
+  const handleUpdate = (item) => {
+    setKategori(item.kategori);
+    setProduk(item.produk);
+    setHarga(item.harga);
+    setButton("Simpan Perubahan");
+    setIndexProduk(item);
+  };
+
+  const handleDelete = (item) => {
+    firebase.database().ref(`catatan/${date}/${item.id}`).remove();
   };
 
   return (
@@ -110,11 +126,14 @@ const Dashboard = () => {
             />
             <br />
             <Button
-              text="Simpan"
+              text={button}
               color="#F28F27"
               textColor="white"
               onSubmit={handleSubmit}
             />
+            {button === "Simpan Perubahan" && (
+              <Button text="Batal Ubah" color="yellow" onSubmit={resetField} />
+            )}
           </div>
           <div className="col-sm ms-5">
             <table class="table">
@@ -124,6 +143,8 @@ const Dashboard = () => {
                   <th scope="col">Kategori</th>
                   <th scope="col">Nama makanan/minuman</th>
                   <th scope="col">Harga </th>
+                  <th scope="col">Update </th>
+                  <th scope="col">Delete </th>
                 </tr>
               </thead>
               {catatan && (
@@ -134,10 +155,26 @@ const Dashboard = () => {
                       <td>{item.kategori}</td>
                       <td>{item.produk}</td>
                       <td>{item.harga}</td>
+                      <td className="row">
+                        <Button
+                          text="Ubah"
+                          color="green"
+                          textColor="white"
+                          onSubmit={() => handleUpdate(item)}
+                        />
+                      </td>
+                      <td>
+                        <Button
+                          text="Hapus"
+                          color="red"
+                          textColor="white"
+                          onSubmit={() => handleDelete(item)}
+                        />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
-              )}   
+              )}
             </table>
             <br />
             <h1>
