@@ -30,7 +30,7 @@ const Register = () => {
         setEmail("");
         setPassword("");
 
-        history.push("/");
+        history.push("/login");
       })
       .catch((error) => {
         console.log(error);

@@ -25,7 +25,7 @@ const About = () => {
           marginRight: "400px",
         }}
       >
-        <Link to="login" style={{ textDecoration: "none" }}>
+        <Link to="/login" style={{ textDecoration: "none" }}>
           <Button text="Logout" color="red" textColor="white" />
         </Link>
       </div>
