@@ -4,3 +4,13 @@
 .whiteText {
   color: white;
 }
+
+.footer {
+  position: fixed;
+  bottom: 0%;
+  height: 40px;
+  width: 100%;
+  background-color: brown;
+  text-align: center;
+  color: white;
+}

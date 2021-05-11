@@ -75,7 +75,7 @@ const Register = () => {
           color="brown"
           onSubmit={handleSubmit}
         />
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/login" style={{ textDecoration: "none" }}>
           <Button block text="Back to Login" color="grey" textColor="white" />
         </Link>
       </div>

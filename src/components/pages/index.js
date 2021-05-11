@@ -1,6 +1,7 @@
 import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./Dashboard";
-import Summary from "./Summary";
+import About from "./About";
+import Start from "./Start";
 
-export { Login, Register, Dashboard, Summary };
+export { Login, Register, Dashboard, About, Start };
